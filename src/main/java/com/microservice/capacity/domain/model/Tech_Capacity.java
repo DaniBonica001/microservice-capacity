@@ -5,13 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Capacity {
-    private int id;
-    private String name;
-    private String description;
+public class Tech_Capacity {
+    private int capacity_id;
+    private List<Integer> technologies;
 }

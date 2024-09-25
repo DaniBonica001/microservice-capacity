@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,4 +19,5 @@ public class CapacityEntity {
     private int id;
     private String name;
     private String description;
+
 }
