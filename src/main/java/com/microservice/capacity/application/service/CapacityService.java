@@ -3,6 +3,7 @@ package com.microservice.capacity.application.service;
 import com.microservice.capacity.application.ports.input.CapacityServicePort;
 import com.microservice.capacity.application.ports.output.CapacityPersistencePort;
 import com.microservice.capacity.domain.model.Capacity;
+import com.microservice.capacity.domain.model.CapacityBootcamp;
 import com.microservice.capacity.domain.model.Tech_Capacity;
 import com.microservice.capacity.domain.model.Technology;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,39 @@ public class CapacityService implements CapacityServicePort {
                 });
     }
 
+    @Override
+    public Mono<Void> createCapacityBootcamp(int bootcampId, List<Integer> capacities) {
+        return Flux.fromIterable(capacities)
+                .flatMap(capacityId ->
+                        existsById(capacityId)
+                                .flatMap(exists ->{
+                                    if (Boolean.TRUE.equals(exists)){
+                                        return Mono.just(CapacityBootcamp.builder()
+                                                .bootcampId(bootcampId)
+                                                .capacityId(capacityId)
+                                                .build());
+                                    }else {
+                                        return Mono.error(new Exception("Capacity with ID " + capacityId + " does not exist"));
+                                    }
+                                })
+                                .onErrorResume(e->{
+                                    log.error("Error creating capacity bootcamp: {}", e.getMessage());
+                                    return Mono.empty();
+                                })
+                )
+                .collectList()
+                .flatMap(validCapacitiesBootcamp ->{
+                    if (validCapacitiesBootcamp.isEmpty()){
+                        return Mono.error(new Exception("No valid capacities found"));
+                    }
+                    return persistencePort.createCapacityBootcamp(validCapacitiesBootcamp);
+                });
+    }
 
+
+    private Mono<Boolean> existsById(int id) {
+        return persistencePort.existsById(id);
+    }
     private Mono<Void> associateTechnologiesWithCapacity(int capacityId, List<Integer> technologies) {
         return webClient.post()
                 .uri("/v1/api/tech_capacity")
