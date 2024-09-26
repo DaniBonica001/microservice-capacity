@@ -39,8 +39,8 @@ public class CapacityController implements CapacityAPI {
     }
 
     @Override
-    public Flux<CreateCapacityResponse> findByBootcampId(String bootcampId) {
-        return servicePort.findByBootcampId(bootcampId).map(mapper::fromCapacityToCreateCapacityResponse);
+    public Flux<CapacityTechs> findByBootcampId(String bootcampId) {
+        return servicePort.findByBootcampId(bootcampId).map(mapper::fromCapacityToCapacityTechs);
     }
 
 

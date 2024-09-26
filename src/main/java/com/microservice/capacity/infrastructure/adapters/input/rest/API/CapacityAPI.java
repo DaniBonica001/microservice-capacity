@@ -25,6 +25,6 @@ public interface CapacityAPI {
     ResponseEntity<Mono<Void>> createCapacityBootcamp(@RequestBody CreateCapacityBootcampRequest request);
 
     @GetMapping("/v1/api/{bootcampId}")
-    Flux<CreateCapacityResponse> findByBootcampId(@PathVariable String bootcampId);
+    Flux<CapacityTechs> findByBootcampId(@PathVariable String bootcampId);
 
 }
