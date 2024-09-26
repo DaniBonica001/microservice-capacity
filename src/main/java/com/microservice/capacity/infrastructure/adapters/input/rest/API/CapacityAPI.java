@@ -7,6 +7,7 @@ import com.microservice.capacity.infrastructure.adapters.input.rest.dto.response
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequestMapping(CapacityAPI.BASE_URL)
@@ -22,5 +23,8 @@ public interface CapacityAPI {
 
     @PostMapping("/v1/api/capacity_bootcamp")
     ResponseEntity<Mono<Void>> createCapacityBootcamp(@RequestBody CreateCapacityBootcampRequest request);
+
+    @GetMapping("/v1/api/{bootcampId}")
+    Flux<CapacityTechs> findByBootcampId(@PathVariable String bootcampId);
 
 }

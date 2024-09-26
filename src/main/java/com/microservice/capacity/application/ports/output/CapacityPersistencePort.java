@@ -16,4 +16,5 @@ public interface CapacityPersistencePort {
     Mono<Long> count();
     Mono<Boolean> existsById(int id);
     Mono<Void> createCapacityBootcamp(List<CapacityBootcamp> capacities);
+    Flux<Capacity> findByBootcampId(String bootcampId);
 }

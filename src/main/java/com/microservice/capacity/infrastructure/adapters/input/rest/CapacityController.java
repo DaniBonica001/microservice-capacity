@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -35,6 +36,11 @@ public class CapacityController implements CapacityAPI {
     @Override
     public ResponseEntity<Mono<Void>> createCapacityBootcamp(CreateCapacityBootcampRequest request) {
         return new ResponseEntity<>(servicePort.createCapacityBootcamp(request.bootcampId(), request.capacities()), HttpStatus.OK);
+    }
+
+    @Override
+    public Flux<CapacityTechs> findByBootcampId(String bootcampId) {
+        return servicePort.findByBootcampId(bootcampId).map(mapper::fromCapacityToCapacityTechs);
     }
 
 

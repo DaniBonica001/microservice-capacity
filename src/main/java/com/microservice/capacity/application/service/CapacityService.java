@@ -99,6 +99,18 @@ public class CapacityService implements CapacityServicePort {
                 });
     }
 
+    @Override
+    public Flux<Capacity> findByBootcampId(String bootcampId) {
+        return persistencePort.findByBootcampId(bootcampId)
+                .flatMap(capacity -> getTechsByCapacityId(capacity.getId())
+                        .collectList()
+                        .map(technologies -> {
+                            capacity.setTechnologies(technologies);
+                            return capacity;
+                        }))
+                ;
+    }
+
 
     private Mono<Boolean> existsById(int id) {
         return persistencePort.existsById(id);

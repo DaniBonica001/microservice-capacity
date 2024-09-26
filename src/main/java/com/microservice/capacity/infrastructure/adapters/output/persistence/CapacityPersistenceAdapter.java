@@ -52,4 +52,10 @@ public class CapacityPersistenceAdapter implements CapacityPersistencePort {
     public Mono<Void> createCapacityBootcamp(List<CapacityBootcamp> capacities) {
         return capacityBootcampRepository.saveAll(capacityBootcampPersistenceMapper.fromCapacityBootcampToCapacityBootcampEntity(capacities)).then();
     }
+
+    @Override
+    public Flux<Capacity> findByBootcampId(String bootcampId) {
+        return capacityBootcampRepository.findByBootcampId(Integer.parseInt(bootcampId))
+                .flatMap(entity -> repository.findById(entity.getCapacityId()).map(mapper::fromCapacityEntityToCapacity));
+    }
 }
