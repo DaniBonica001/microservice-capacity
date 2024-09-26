@@ -12,4 +12,5 @@ public interface CapacityServicePort {
     Mono<Capacity> createCapacity(Capacity capacity, List<Integer> technologies);
     Mono<Page<Capacity>> findAllPaged(int page, int size, String sortBy, String order);
     Mono<Void> createCapacityBootcamp(int bootcampId, List<Integer> capacities);
+    Flux<Capacity> findByBootcampId(String bootcampId);
 }
