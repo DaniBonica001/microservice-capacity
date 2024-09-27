@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -19,7 +18,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -115,6 +113,7 @@ public class CapacityService implements CapacityServicePort {
     private Mono<Boolean> existsById(int id) {
         return persistencePort.existsById(id);
     }
+
     private Mono<Void> associateTechnologiesWithCapacity(int capacityId, List<Integer> technologies) {
         return webClient.post()
                 .uri("/v1/api/tech_capacity")
